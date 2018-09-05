@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:ulgearlist/GearItem.dart';
 
 class AddScreen extends State<AddStatefulWidget> {
   static const String routeName = "/addScreen";
   String name, weight, notes;
-  int weightValue = 0;
   final formKey = new GlobalKey<FormState>();
   String isGramsString = "g";
   bool isGrams;
@@ -34,6 +37,11 @@ class AddScreen extends State<AddStatefulWidget> {
                   hintText: 'Item Name',
                   labelText: 'Name',
                 ),
+              ),
+              new FloatingActionButton(
+                onPressed: getImage,
+                tooltip: 'Pick Image',
+                child: new Icon(Icons.add_a_photo),
               ),
               new Row(children: [
                 new FractionallySizedBox(
@@ -80,8 +88,7 @@ class AddScreen extends State<AddStatefulWidget> {
               new FittedBox(
                 fit: BoxFit.fill,
                 child: new RaisedButton(
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                   child: new Text("Add Item"),
                 ),
               ),
@@ -91,7 +98,38 @@ class AddScreen extends State<AddStatefulWidget> {
       ),
     );
   }
+
+  File image;
+
+  Future getImage() async {
+    var imagePicked = await ImagePicker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      image = imagePicked;
+    });
+  }
+
+  void addNewItem(BuildContext c) {
+    //TODO add the adding
+    final form = formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      FileUpater f = new FileUpater();
+      image = checkImage(image);
+      GearItem newItem = new GearItem(name, weight, isGrams, notes, image);
+      f.addAccount(newItem, c);
+    }
+  }
+
+  File checkImage(File image) {
+    if (image == null) {
+      return new File(Icons.landscape.toString());
+    } else {
+      return image;
+    }
+  }
 }
+
 class AddStatefulWidget extends StatefulWidget {
   @override
   AddScreen createState() => new AddScreen();
