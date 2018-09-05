@@ -1,0 +1,75 @@
+import 'package:ulgearlist/screens/main.dart';
+import 'dart:convert';
+import 'package:ulgearlist/GearItem.dart';
+import 'package:ulgearlist/gearList.dart';
+import 'package:flutter/material.dart';
+
+import 'dart:io';
+import 'dart:async';
+import 'package:path_provider/path_provider.dart';
+
+class FileUpater {
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/gearList.txt');
+  }
+
+  Future<File> writeList(
+      List<GearItem> gearListItems, BuildContext bc, bool returnLoc) async {
+    final file = await _localFile;
+    // Write the file
+    Map<String, dynamic> jsonString = new GearList(gearListItems).toJson();
+    if (returnLoc) {
+      Navigator.pop(bc);
+    } else {
+      Navigator.pushNamed(bc, MyHomePage.routeName);
+    }
+
+    return file.writeAsString(jsonEncode(jsonString));
+  }
+
+  Future<List<GearItem>> readList() async {
+    try {
+      final file = await _localFile;
+
+      // Read the file
+      String contents = await file.readAsString();
+      Map fileMap = jsonDecode(contents);
+      GearList jsonObject = GearList.fromJson(fileMap);
+
+      return jsonObject.gearList;
+    } catch (e) {
+      // If we encounter an error, return 0
+      return null;
+    }
+  }
+
+  updateAccount(GearItem newItem, BuildContext bc) async {
+    listItems.elementAt(currObjPos).name = newItem.name;
+    listItems.elementAt(currObjPos).weight = newItem.weight;
+    listItems.elementAt(currObjPos).isGrams = newItem.isGrams;
+    listItems.elementAt(currObjPos).notes = newItem.notes;
+    listItems.elementAt(currObjPos).image = newItem.image;
+
+    writeList(listItems, bc, true);
+  }
+
+  removeAccount(BuildContext bc) async {
+    listItems.remove(listItems.elementAt(currObjPos));
+    writeList(listItems, bc, false);
+  }
+
+  addAccount(GearItem newItem, BuildContext bc) async {
+    if (listItems == null) {
+      listItems = new List<GearItem>();
+    }
+    listItems.add(newItem);
+    writeList(listItems, bc, true);
+  }
+}

@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:ulgearlist/GearItem.dart';
+import 'package:ulgearlist/fileMethods.dart';
 
 class AddScreen extends State<AddStatefulWidget> {
   static const String routeName = "/addScreen";

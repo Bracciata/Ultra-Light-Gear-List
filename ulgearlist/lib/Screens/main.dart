@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:ulgearlist/GearItem.dart';
+import 'package:ulgearlist/Screens/addGearItem.dart';
+
+
+GearItem currItem;
+List<GearItem> listItems;
+int currObjPos;
 
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
+  int currObjPos;
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -20,12 +29,19 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: new MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: <String, WidgetBuilder>{
+        // define the routes
+        MyHomePage.routeName: (BuildContext context) => new MyHomePage(),
+        AddScreen.routeName: (BuildContext context) => new AddStatefulWidget(),
+        
+      },
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
+  static const String routeName = "/homeScreen";
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
