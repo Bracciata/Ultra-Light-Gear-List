@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ulgearlist/GearItem.dart';
 import 'package:ulgearlist/FileMethods.dart';
-import 'dart:async';
-import 'dart:io';
 import 'package:ulgearlist/Screens/addGearItem.dart';
 import 'package:ulgearlist/Screens/viewItem.dart';
 
@@ -27,7 +25,8 @@ class MyApp extends StatelessWidget {
         // define the routes
         MyHomePage.routeName: (BuildContext context) => new MyHomePage(),
         AddScreen.routeName: (BuildContext context) => new AddStatefulWidget(),
-        ViewScreen.routeName: ( BuildContext context)=> new ViewStatefulWidget(),
+        ViewScreen.routeName: (BuildContext context) =>
+            new ViewStatefulWidget(),
       },
     );
   }
@@ -247,8 +246,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   viewGearPage(BuildContext c, int pos) {
     //when an item in the list is pressed it opens the view page with full information and the options to edit or delete
+
     currObjPos = pos;
-    currItem = listItems.elementAt(pos);
+    if (searchController != null) {
+      currItem = listItems.where((g)=> g==searchList.elementAt(pos)).toList().elementAt(0);
+    } else {
+      currItem = listItems.elementAt(pos);
+    }
     Navigator.pushNamed(c, ViewScreen.routeName);
   }
 

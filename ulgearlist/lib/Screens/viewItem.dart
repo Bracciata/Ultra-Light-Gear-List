@@ -10,14 +10,10 @@ bool isGrams;
 class ViewScreen extends State<ViewStatefulWidget> {
   static const String routeName = "/viewScreen";
 
-  bool hiddenPass = false;
-
   @override
   Widget build(BuildContext context) {
     TextStyle main = new TextStyle(color: Colors.black, fontSize: 18.0);
     TextStyle secondary = new TextStyle(color: Colors.grey, fontSize: 12.0);
-    TextStyle onePointFive =
-        new TextStyle(color: Colors.black54, fontSize: 12.0);
 
     return new Scaffold(
       appBar: new AppBar(
