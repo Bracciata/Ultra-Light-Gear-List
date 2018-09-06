@@ -85,6 +85,20 @@ class _MyHomePageState extends State<MyHomePage> {
         leading: new Container(),
       ),
       body: new Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        new SwitchListTile(
+          title: new Text(isGramsString),
+          value: isGrams,
+          onChanged: (bool value) {
+            setState(() {
+              isGrams = value;
+              if (isGrams) {
+                isGramsString = 'g';
+              } else {
+                isGramsString = 'oz';
+              }
+            });
+          },
+        ),
         new Expanded(
           child: new FutureBuilder(
               future: getGear(),
@@ -249,7 +263,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
     currObjPos = pos;
     if (searchController != null) {
-      currItem = listItems.where((g)=> g==searchList.elementAt(pos)).toList().elementAt(0);
+      currItem = listItems
+          .where((g) => g == searchList.elementAt(pos))
+          .toList()
+          .elementAt(0);
     } else {
       currItem = listItems.elementAt(pos);
     }
