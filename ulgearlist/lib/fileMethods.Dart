@@ -50,7 +50,8 @@ class FileUpater {
     }
   }
 
-  updateAccount(GearItem newItem, BuildContext bc) async {
+  updateItem(GearItem newItem, BuildContext bc) async {
+    //allows updating a new gear item then writes to file
     listItems.elementAt(currObjPos).name = newItem.name;
     listItems.elementAt(currObjPos).weight = newItem.weight;
     listItems.elementAt(currObjPos).isGrams = newItem.isGrams;
@@ -60,12 +61,14 @@ class FileUpater {
     writeList(listItems, bc, true);
   }
 
-  removeAccount(BuildContext bc) async {
+  removeItem(BuildContext bc) async {
+    //removes the item from the list and writes it to file
     listItems.remove(listItems.elementAt(currObjPos));
     writeList(listItems, bc, false);
   }
 
-  addAccount(GearItem newItem, BuildContext bc) async {
+  addItem(GearItem newItem, BuildContext bc) async {
+    //adds item to list and writes the list to file.
     if (listItems == null) {
       listItems = new List<GearItem>();
     }

@@ -118,7 +118,7 @@ class AddScreen extends State<AddStatefulWidget> {
       FileUpater f = new FileUpater();
       image = checkImage(image);
       GearItem newItem = new GearItem(name, weight, isGrams, notes, image);
-      f.addAccount(newItem, c);
+      f.addItem(newItem, c);
     }
   }
 
