@@ -90,7 +90,7 @@ class ViewScreen extends State<ViewStatefulWidget> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return new AlertDialog(
-            title: new Text('Are you sure you want to delete this account?'),
+            title: new Text('Are you sure you want to delete this item?'),
             actions: <Widget>[
               new FlatButton(
                 child: new Text('Yes'),

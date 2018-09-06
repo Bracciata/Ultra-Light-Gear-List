@@ -3,11 +3,12 @@ import 'package:ulgearlist/GearItem.dart';
 import 'package:ulgearlist/FileMethods.dart';
 import 'package:ulgearlist/Screens/addGearItem.dart';
 import 'package:ulgearlist/Screens/viewItem.dart';
-
+import 'dart:async';
 GearItem currItem;
 List<GearItem> listItems;
 int currObjPos;
 bool prefersGrams = true;
+String isGramsString = "g";
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
@@ -87,11 +88,11 @@ class _MyHomePageState extends State<MyHomePage> {
       body: new Column(mainAxisAlignment: MainAxisAlignment.start, children: [
         new SwitchListTile(
           title: new Text(isGramsString),
-          value: isGrams,
+          value: prefersGrams,
           onChanged: (bool value) {
             setState(() {
-              isGrams = value;
-              if (isGrams) {
+              prefersGrams = value;
+              if (prefersGrams) {
                 isGramsString = 'g';
               } else {
                 isGramsString = 'oz';
@@ -289,6 +290,43 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         onTap: () {
           viewGearPage(bc, index);
+        },
+        onLongPress: () {
+                deleteDialog(context);
+                if(searchController==null){
+                  currObjPos=index;
+                }else{
+                  currObjPos=listItems.indexWhere((g) => g == searchList.elementAt(index));
+                }}
+                ,);
+  }
+  Future<bool> deleteDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            title: new Text('Are you sure you want to delete this item?'),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('Yes'),
+                onPressed: () {
+                  deleteItem(context);
+                },
+              ),
+              new FlatButton(
+                child: new Text('No'),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              )
+            ],
+          );
         });
+  }
+
+  deleteItem(BuildContext c) {
+    FileUpater f = new FileUpater();
+    f.removeItem(c);
   }
 }
