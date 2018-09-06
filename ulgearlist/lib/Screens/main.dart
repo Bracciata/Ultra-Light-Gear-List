@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ulgearlist/GearItem.dart';
-import 'package:ulgearlist/fileMethods.dart';
+import 'package:ulgearlist/FileMethods.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:ulgearlist/Screens/addGearItem.dart';
+import 'package:ulgearlist/Screens/viewItem.dart';
 
 GearItem currItem;
 List<GearItem> listItems;
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         // define the routes
         MyHomePage.routeName: (BuildContext context) => new MyHomePage(),
         AddScreen.routeName: (BuildContext context) => new AddStatefulWidget(),
+        ViewScreen.routeName: ( BuildContext context)=> new ViewStatefulWidget(),
       },
     );
   }
