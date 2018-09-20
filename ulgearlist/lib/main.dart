@@ -211,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
         weight = weight + double.parse(weightString);
       }
     }
-    String finalWeightString;
+    String finalWeightString; 
     if (prefersGrams) {
       finalWeightString = weight.toString() + " g";
     } else {
@@ -245,6 +245,7 @@ class _MyHomePageState extends State<MyHomePage> {
         gearListView = new ListView(
             children: new List.generate(listItems.length, (int index) {
           createItemTile(listItems[index], bc, index);
+
         }));
       } else {
         //otherwise this means we are searching so must find the ones that fit the search parameter
@@ -328,6 +329,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //leading: new Image.file(
       //item.image,
       //),
+      contentPadding: new EdgeInsets.fromLTRB( MediaQuery.of(context).size.width/9, 0.0, 0.0, 0.0),
       subtitle:
           new Text(getGearWeight(item.weight, item.isGrams, prefersGrams)),
       trailing: new Text(
