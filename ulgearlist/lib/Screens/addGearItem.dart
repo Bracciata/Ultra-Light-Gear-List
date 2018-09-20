@@ -10,7 +10,7 @@ class AddScreen extends State<AddStatefulWidget> {
   String name, weight, notes;
   final formKey = new GlobalKey<FormState>();
   String isGramsString = "g";
-  bool isGrams;
+  bool isGrams = true;
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -39,14 +39,10 @@ class AddScreen extends State<AddStatefulWidget> {
                   labelText: 'Name',
                 ),
               ),
-              new FloatingActionButton(
-                onPressed: getImage,
-                tooltip: 'Pick Image',
-                child: new Icon(Icons.add_a_photo),
-              ),
+            
               new Row(children: [
-                new FractionallySizedBox(
-                    widthFactor: 50.0,
+                new Container(
+                    width: MediaQuery.of(context).size.width / 2,
                     child: new TextFormField(
                       validator: (input) {
                         final isDigitsOnly = double.tryParse(input);
@@ -61,8 +57,8 @@ class AddScreen extends State<AddStatefulWidget> {
                         labelText: 'Weight',
                       ),
                     )),
-                new FractionallySizedBox(
-                    widthFactor: 50.0,
+                new Container(
+                    width: MediaQuery.of(context).size.width / 2,
                     child: new SwitchListTile(
                       title: new Text(isGramsString),
                       value: isGrams,
@@ -89,10 +85,15 @@ class AddScreen extends State<AddStatefulWidget> {
               new FittedBox(
                 fit: BoxFit.fill,
                 child: new RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {addNewItem(context);},
                   child: new Text("Add Item"),
                 ),
               ),
+                /*new FloatingActionButton(
+                onPressed: getImage,
+                tooltip: 'Pick Image',
+                child: new Icon(Icons.add_a_photo),
+              ),*/
             ],
           ),
         ),
@@ -100,13 +101,13 @@ class AddScreen extends State<AddStatefulWidget> {
     );
   }
 
-  File image;
+ // File image;
 
   Future getImage() async {
     var imagePicked = await ImagePicker.pickImage(source: ImageSource.camera);
 
     setState(() {
-      image = imagePicked;
+   //   image = imagePicked;
     });
   }
 
@@ -116,8 +117,10 @@ class AddScreen extends State<AddStatefulWidget> {
     if (form.validate()) {
       form.save();
       FileUpater f = new FileUpater();
-      image = checkImage(image);
-      GearItem newItem = new GearItem(name, weight, isGrams, notes, image);
+     // image = checkImage(image);
+      GearItem newItem = new GearItem(name, weight, isGrams, notes, 
+      //image
+      );
       f.addItem(newItem, c);
     }
   }

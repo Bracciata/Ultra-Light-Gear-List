@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
+import 'package:ulgearlist/main.dart';
 import 'editItem.dart';
 import 'package:ulgearlist/fileMethods.dart';
 import 'dart:async';
@@ -46,7 +46,7 @@ class ViewScreen extends State<ViewStatefulWidget> {
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            new Image.file(currItem.image,width:MediaQuery.of(context).size.width*.5,height:MediaQuery.of(context).size.width*.5,),
+            //new Image.file(currItem.image,width:MediaQuery.of(context).size.width*.5,height:MediaQuery.of(context).size.width*.5,),
             new Row(
               children: <Widget>[
                   new FractionallySizedBox(

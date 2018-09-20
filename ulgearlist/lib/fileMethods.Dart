@@ -1,4 +1,4 @@
-import 'package:ulgearlist/screens/main.dart';
+import 'package:ulgearlist/main.dart';
 import 'dart:convert';
 import 'package:ulgearlist/GearItem.dart';
 import 'package:ulgearlist/gearList.dart';
@@ -56,7 +56,7 @@ class FileUpater {
     listItems.elementAt(currObjPos).weight = newItem.weight;
     listItems.elementAt(currObjPos).isGrams = newItem.isGrams;
     listItems.elementAt(currObjPos).notes = newItem.notes;
-    listItems.elementAt(currObjPos).image = newItem.image;
+    //listItems.elementAt(currObjPos).image = newItem.image;
 
     writeList(listItems, bc, true);
   }

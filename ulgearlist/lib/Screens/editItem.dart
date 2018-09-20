@@ -1,6 +1,6 @@
 import 'package:ulgearlist/FileMethods.Dart';
 import 'package:flutter/material.dart';
-import 'main.dart';
+import 'package:ulgearlist/main.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
@@ -20,13 +20,13 @@ class EditScreen extends State<EditStatefulWidget> {
   final TextEditingController weightController = new TextEditingController();
   final TextEditingController notesController = new TextEditingController();
 
-  File gearImage;
+  //File gearImage;
   @override
   void initState() {
     nameController.text = currItem.name;
     notesController.text = currItem.notes;
     weightController.text = currItem.weight;
-    gearImage = currItem.image;
+    //gearImage = currItem.image;
     return super.initState();
   }
 
@@ -47,14 +47,14 @@ class EditScreen extends State<EditStatefulWidget> {
         body: new Center(
           child: new Column(children: [
             //allows the image to be clicked on so it can be changed
-            new GestureDetector(
+         /*   new GestureDetector(
               onTap: getImage,
               child: new Image.file(
                 gearImage,
                 width: MediaQuery.of(context).size.width * .5,
                 height: MediaQuery.of(context).size.width * .5,
               ),
-            ),
+            ),*/
             //the text fields to change text values
             Form(
               key: formKey,
@@ -139,7 +139,9 @@ class EditScreen extends State<EditStatefulWidget> {
     if (form.validate()) {
       form.save();
       FileUpater f = new FileUpater();
-      currItem = new GearItem(name, weight, isGrams, notes, gearImage);
+      currItem = new GearItem(name, weight, isGrams, notes, 
+      //gearImage
+      );
       f.updateItem(currItem, c);
     } else {
       autoValidate = true;
@@ -151,7 +153,7 @@ class EditScreen extends State<EditStatefulWidget> {
     var imagePicked = await ImagePicker.pickImage(source: ImageSource.camera);
 
     setState(() {
-      gearImage = imagePicked;
+      //gearImage = imagePicked;
     });
   }
 }

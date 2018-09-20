@@ -17,8 +17,8 @@ class GearList {
           listOfGearToConvert[i]['gearName'],
           listOfGearToConvert[i]['gearWeight'],
           listOfGearToConvert[i]['gearIsGrams'],
-          listOfGearToConvert[i]['gearNotes'],
-          listOfGearToConvert[i]['gearImage']));
+          listOfGearToConvert[i]['gearNotes']));
+          //listOfGearToConvert[i]['gearImage']));
     }
     return gearListConverted;
   }

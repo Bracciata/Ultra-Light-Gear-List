@@ -4,6 +4,7 @@ import 'package:ulgearlist/FileMethods.dart';
 import 'package:ulgearlist/Screens/addGearItem.dart';
 import 'package:ulgearlist/Screens/viewItem.dart';
 import 'dart:async';
+
 GearItem currItem;
 List<GearItem> listItems;
 int currObjPos;
@@ -72,95 +73,99 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     //there is where the views are located
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
-        actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.add),
-            tooltip: 'Add New Item',
-            onPressed: () {
-              addItem(context);
-            },
+        appBar: new AppBar(
+          title: new Text(widget.title),
+          actions: <Widget>[
+            new IconButton(
+              icon: new Icon(Icons.add),
+              tooltip: 'Add New Item',
+              onPressed: () {
+                addItem(context);
+              },
+            ),
+          ],
+          leading: new Container(),
+        ),
+        body: new Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+          listItems != null
+              ? new SwitchListTile(
+                  title: new Text(isGramsString),
+                  value: prefersGrams,
+                  onChanged: (bool value) {
+                    setState(() {
+                      prefersGrams = value;
+                      if (prefersGrams) {
+                        isGramsString = 'g';
+                      } else {
+                        isGramsString = 'oz';
+                      }
+                    });
+                  },
+                )
+              : new Container(),
+          new Expanded(
+            child: new FutureBuilder(
+                future: getGear(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                    case ConnectionState.waiting:
+                      return new Text('loading...');
+                    default:
+                      if (snapshot.hasError)
+                        return new Text('Error: ${snapshot.error}');
+                      else
+                        return getGearWidgets(context);
+                  }
+                }),
           ),
-        ],
-        leading: new Container(),
-      ),
-      body: new Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-        new SwitchListTile(
-          title: new Text(isGramsString),
-          value: prefersGrams,
-          onChanged: (bool value) {
-            setState(() {
-              prefersGrams = value;
-              if (prefersGrams) {
-                isGramsString = 'g';
-              } else {
-                isGramsString = 'oz';
-              }
-            });
-          },
-        ),
-        new Expanded(
-          child: new FutureBuilder(
-              future: getGear(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.none:
-                  case ConnectionState.waiting:
-                    return new Text('loading...');
-                  default:
-                    if (snapshot.hasError)
-                      return new Text('Error: ${snapshot.error}');
-                    else
-                      return getGearWidgets(context);
-                }
-              }),
-        ),
-        searchVisibleBool
-            ? new Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                new Expanded(
-                    child: new TextField(
-                  controller: searchController,
-                  onChanged: (String searchTerm) {
-                    setState(() {
-                      searchController.text = searchTerm;
-                    });
-                  },
-                )),
-                new Expanded(
-                    child: new IconButton(
-                  icon: new Icon(
-                    Icons.close,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      searchVisibleBool = false;
-                      searchController.text = "";
-                      searchList = null;
-                    });
-                  },
-                ))
-              ])
-            : new Container() //replaces the searchbar with empty container
-      ]),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            searchVisibleBool = true;
-          });
-        },
-        tooltip: 'Search',
-        child: new Icon(Icons.search),
-      ),
+          searchVisibleBool
+              ? new Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  new Expanded(
+                      child: new TextField(
+                    controller: searchController,
+                    onChanged: (String searchTerm) {
+                      setState(() {
+                        searchController.text = searchTerm;
+                      });
+                    },
+                  )),
+                  new Expanded(
+                      child: new IconButton(
+                    icon: new Icon(
+                      Icons.close,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        searchVisibleBool = false;
+                        searchController.text = "";
+                        searchList = null;
+                      });
+                    },
+                  ))
+                ])
+              : new Container() //replaces the searchbar with empty container
+        ]),
+        floatingActionButton: !searchVisibleBool
+            ? new FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    searchVisibleBool = true;
+                  });
+                },
+                tooltip: 'Search',
+                child: new Icon(Icons.search),
+              )
+            : new Container()
 
-      /* may want to use below but otherwise just make an icon in toolbar
+        /* may want to use below but otherwise just make an icon in toolbar
       
       floatingActionButton: new FloatingActionButton(
         onPressed: addNewItem,
         tooltip: 'Add New Item',
         child: new Icon(Icons.add),
       ),*/
-    );
+        );
   }
 
   addItem(BuildContext c) {
@@ -172,6 +177,48 @@ class _MyHomePageState extends State<MyHomePage> {
     //gets the saved gear from the file
     FileUpater f = new FileUpater();
     listItems = await f.readList();
+  }
+
+  ListTile getTotalPackContents(bool searching) {
+    //TODO find a way to have this be called so it will be at top and hopefully make the rest indented
+    double weight = 0.0;
+    if (searching) {
+      for (int i = 0; i < searchList.length; i++) {
+        String weightString;
+        if (prefersGrams) {
+          weightString = getGearWeight(
+              searchList[i].weight, searchList[i].isGrams, prefersGrams);
+          weightString = weightString.substring(0, weightString.length - 2);
+        } else {
+          weightString = getGearWeight(
+              searchList[i].weight, searchList[i].isGrams, prefersGrams);
+          weightString = weightString.substring(0, weightString.length - 3);
+        }
+        weight = weight + double.parse(weightString);
+      }
+    } else {
+      for (int i = 0; i < listItems.length; i++) {
+        String weightString;
+        if (prefersGrams) {
+          weightString = getGearWeight(
+              listItems[i].weight, listItems[i].isGrams, prefersGrams);
+          weightString = weightString.substring(0, weightString.length - 2);
+        } else {
+          weightString = getGearWeight(
+              listItems[i].weight, listItems[i].isGrams, prefersGrams);
+          weightString = weightString.substring(0, weightString.length - 3);
+        }
+        weight = weight + double.parse(weightString);
+      }
+    }
+    String finalWeightString;
+    if (prefersGrams) {
+      finalWeightString = weight.toString() + " g";
+    } else {
+      finalWeightString = weight.toString() + " oz";
+    }
+    return new ListTile(
+        title: new Text("Pack"), subtitle: new Text(finalWeightString));
   }
 
   ListView getGearWidgets(BuildContext bc) {
@@ -277,29 +324,32 @@ class _MyHomePageState extends State<MyHomePage> {
   ListTile createItemTile(GearItem item, BuildContext bc, int index) {
     //this create the list items for both searching and not searching to display the items
     return new ListTile(
-        title: new Text(item.name),
-        leading: new Image.file(
-          item.image,
-        ),
-        subtitle:
-            new Text(getGearWeight(item.weight, item.isGrams, prefersGrams)),
-        trailing: new Text(
-          item.notes,
-          maxLines: 3,
-          overflow: TextOverflow.ellipsis,
-        ),
-        onTap: () {
-          viewGearPage(bc, index);
-        },
-        onLongPress: () {
-                deleteDialog(context);
-                if(searchController==null){
-                  currObjPos=index;
-                }else{
-                  currObjPos=listItems.indexWhere((g) => g == searchList.elementAt(index));
-                }}
-                ,);
+      title: new Text(item.name),
+      //leading: new Image.file(
+      //item.image,
+      //),
+      subtitle:
+          new Text(getGearWeight(item.weight, item.isGrams, prefersGrams)),
+      trailing: new Text(
+        item.notes,
+        maxLines: 3,
+        overflow: TextOverflow.ellipsis,
+      ),
+      onTap: () {
+        viewGearPage(bc, index);
+      },
+      onLongPress: () {
+        deleteDialog(context);
+        if (searchController == null) {
+          currObjPos = index;
+        } else {
+          currObjPos =
+              listItems.indexWhere((g) => g == searchList.elementAt(index));
+        }
+      },
+    );
   }
+
   Future<bool> deleteDialog(BuildContext context) {
     return showDialog(
         context: context,
