@@ -88,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
           leading: new Container(),
         ),
         body: new Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+          //TODO fix this so that it will only show if there are list items and will show if there are list items instead of just never loading
           !listItemsNull
               ? new SwitchListTile(
                   title: new Text(isGramsString),
@@ -180,7 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
     listItems = await f.readList();
   }
 
-  ListTile getTotalPackContents(bool searching) {
+  GearItem getTotalPackContents(bool searching) {
     //TODO find a way to have this be called so it will be at top and hopefully make the rest indented
     double weight = 0.0;
     if (searching) {
@@ -212,14 +213,13 @@ class _MyHomePageState extends State<MyHomePage> {
         weight = weight + double.parse(weightString);
       }
     }
-    String finalWeightString;
+    /*String finalWeightString;
     if (prefersGrams) {
       finalWeightString = weight.toString() + " g";
     } else {
       finalWeightString = weight.toString() + " oz";
-    }
-    return new ListTile(
-        title: new Text("Pack"), subtitle: new Text(finalWeightString));
+    }*/
+    return new GearItem("Pack", weight.toString(), prefersGrams, "");
   }
 
   ListView getGearWidgets(BuildContext bc) {
@@ -239,13 +239,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
       return plainListView;
     } else {
-      //this means there is saved gear
+      //this means there is saved gear                                                                                                                                                                            
       ListView gearListView;
-      if (searchController.text == null||searchController.text=="") {
+      if (searchController.text == null || searchController.text == "") {
         //this is used if the search text is empty
+        if(isSearching==null){
+          isSearching=false;
+        }
+        listItems.insert(0, getTotalPackContents(isSearching));
         gearListView = new ListView(
             children: new List.generate(listItems.length, (int index) {
-              
           return createItemTile(listItems[index], bc, index);
         }));
       } else {
@@ -283,6 +286,11 @@ class _MyHomePageState extends State<MyHomePage> {
           return plainListView;
         } else {
           //this recreates the list to display where there is items that fit the search parameteres
+          if(isSearching==null){
+          isSearching=false;
+        }
+          searchList.insert(0, getTotalPackContents(isSearching));
+
           gearListView = new ListView(
               children: new List.generate(searchList.length, (int index) {
             return createItemTile(searchList[index], bc, index);
@@ -325,34 +333,42 @@ class _MyHomePageState extends State<MyHomePage> {
 
   ListTile createItemTile(GearItem item, BuildContext bc, int index) {
     //this create the list items for both searching and not searching to display the items
-  
-    return new ListTile(
-      title: new Text(item.name),
-      //leading: new Image.file(
-      //item.image,
-      //),
-      contentPadding: new EdgeInsets.fromLTRB(
-          MediaQuery.of(context).size.width / 9, 0.0, 0.0, 0.0),
-      subtitle:
-          new Text(getGearWeight(item.weight, item.isGrams, prefersGrams)),
-      trailing: new Text(
-        item.notes,
-        maxLines: 3,
-        overflow: TextOverflow.ellipsis,
-      ),
-      onTap: () {
-        viewGearPage(bc, index);
-      },
-      onLongPress: () {
-        deleteDialog(context);
-        if (searchController == null) {
-          currObjPos = index;
-        } else {
-          currObjPos =
-              listItems.indexWhere((g) => g == searchList.elementAt(index));
-        }
-      },
-    );
+    if (index == 0) {
+      return new ListTile(
+        title: new Text(item.name),
+        subtitle:
+            new Text(getGearWeight(item.weight, item.isGrams, prefersGrams)),
+      );
+    } else {
+      return new ListTile(
+        title: new Text(item.name),
+        //leading: new Image.file(
+        //item.image,
+        //),
+        contentPadding: new EdgeInsets.fromLTRB(
+            MediaQuery.of(context).size.width / 6, 0.0, 0.0, 0.0),
+
+        subtitle:
+            new Text(getGearWeight(item.weight, item.isGrams, prefersGrams)),
+        trailing: new Text(
+          item.notes,
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
+        ),
+        onTap: () {
+          viewGearPage(bc, index);
+        },
+        onLongPress: () {
+          deleteDialog(context);
+          if (searchController == null) {
+            currObjPos = index;
+          } else {
+            currObjPos =
+                listItems.indexWhere((g) => g == searchList.elementAt(index));
+          }
+        },
+      );
+    }
   }
 
   Future<bool> deleteDialog(BuildContext context) {
