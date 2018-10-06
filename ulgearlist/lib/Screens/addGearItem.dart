@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+//import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:ulgearlist/GearItem.dart';
@@ -39,7 +39,6 @@ class AddScreen extends State<AddStatefulWidget> {
                   labelText: 'Name',
                 ),
               ),
-            
               new Row(children: [
                 new Container(
                     width: MediaQuery.of(context).size.width / 2,
@@ -85,11 +84,13 @@ class AddScreen extends State<AddStatefulWidget> {
               new FittedBox(
                 fit: BoxFit.fill,
                 child: new RaisedButton(
-                  onPressed: () {addNewItem(context);},
+                  onPressed: () {
+                    addNewItem(context);
+                  },
                   child: new Text("Add Item"),
                 ),
               ),
-                /*new FloatingActionButton(
+              /*new FloatingActionButton(
                 onPressed: getImage,
                 tooltip: 'Pick Image',
                 child: new Icon(Icons.add_a_photo),
@@ -101,13 +102,13 @@ class AddScreen extends State<AddStatefulWidget> {
     );
   }
 
- // File image;
+  // File image;
 
   Future getImage() async {
-    var imagePicked = await ImagePicker.pickImage(source: ImageSource.camera);
+   // var imagePicked = await ImagePicker.pickImage(source: ImageSource.camera);
 
     setState(() {
-   //   image = imagePicked;
+      //   image = imagePicked;
     });
   }
 
@@ -117,9 +118,10 @@ class AddScreen extends State<AddStatefulWidget> {
     if (form.validate()) {
       form.save();
       FileUpater f = new FileUpater();
-     // image = checkImage(image);
-      GearItem newItem = new GearItem(name, weight, isGrams, notes, 
-      //image
+      // image = checkImage(image);
+      GearItem newItem = new GearItem(
+        name, weight, isGrams, notes,
+        //image
       );
       f.addItem(newItem, c);
     }

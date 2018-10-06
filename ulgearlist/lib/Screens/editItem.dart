@@ -1,8 +1,8 @@
 import 'package:ulgearlist/FileMethods.Dart';
 import 'package:flutter/material.dart';
 import 'package:ulgearlist/main.dart';
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
+//import 'dart:io';
+//import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'package:ulgearlist/GearItem.dart';
 
@@ -150,7 +150,7 @@ class EditScreen extends State<EditStatefulWidget> {
 
 //allows the user to change the image associated with the piece of gear
   Future getImage() async {
-    var imagePicked = await ImagePicker.pickImage(source: ImageSource.camera);
+   // var imagePicked = await ImagePicker.pickImage(source: ImageSource.camera);
 
     setState(() {
       //gearImage = imagePicked;
