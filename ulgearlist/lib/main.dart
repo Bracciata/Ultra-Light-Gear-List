@@ -239,14 +239,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
       return plainListView;
     } else {
-      
       //this means there is saved gear
       ListView gearListView;
-      if (searchController.text == null) {
+      if (searchController.text == null||searchController.text=="") {
         //this is used if the search text is empty
         gearListView = new ListView(
             children: new List.generate(listItems.length, (int index) {
-          createItemTile(listItems[index], bc, index);
+              
+          return createItemTile(listItems[index], bc, index);
         }));
       } else {
         //otherwise this means we are searching so must find the ones that fit the search parameter
@@ -285,7 +285,7 @@ class _MyHomePageState extends State<MyHomePage> {
           //this recreates the list to display where there is items that fit the search parameteres
           gearListView = new ListView(
               children: new List.generate(searchList.length, (int index) {
-            createItemTile(searchList[index], bc, index);
+            return createItemTile(searchList[index], bc, index);
           }));
         }
       }
@@ -325,6 +325,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   ListTile createItemTile(GearItem item, BuildContext bc, int index) {
     //this create the list items for both searching and not searching to display the items
+  
     return new ListTile(
       title: new Text(item.name),
       //leading: new Image.file(
