@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:ulgearlist/main.dart';
+import '../main.dart';
 import 'editItem.dart';
 import 'package:ulgearlist/fileMethods.dart';
 import 'dart:async';
 
 String isGramsString = "g";
 bool isGrams;
-
+//TODO fix currItem becoming null when page changed
 class ViewScreen extends State<ViewStatefulWidget> {
   static const String routeName = "/viewScreen";
 
@@ -49,15 +49,18 @@ class ViewScreen extends State<ViewStatefulWidget> {
             //new Image.file(currItem.image,width:MediaQuery.of(context).size.width*.5,height:MediaQuery.of(context).size.width*.5,),
             new Row(
               children: <Widget>[
-                  new FractionallySizedBox(
-                    widthFactor: 50.0,
-                    child:
-                new Text(
-                  currItem.name+' ('+getGearWeight(currItem.weight, currItem.isGrams, isGrams)+')',
-                  style: main,
-                ),),
-                
-                 new FractionallySizedBox(
+                new FractionallySizedBox(
+                  widthFactor: 50.0,
+                  child: new Text(
+                    currItem.name +
+                        ' (' +
+                        getGearWeight(
+                            currItem.weight, currItem.isGrams, isGrams) +
+                        ')',
+                    style: main,
+                  ),
+                ),
+                new FractionallySizedBox(
                     widthFactor: 50.0,
                     child: new SwitchListTile(
                       title: new Text(isGramsString),
@@ -75,9 +78,8 @@ class ViewScreen extends State<ViewStatefulWidget> {
                     )),
               ],
             ),
-           
+
             new Text(currItem.notes, style: secondary),
-           
           ],
         ),
       ),
@@ -117,6 +119,7 @@ class ViewScreen extends State<ViewStatefulWidget> {
     FileUpater f = new FileUpater();
     f.removeItem(c);
   }
+
   String getGearWeight(String weight, bool isGrams, bool prefersGrams) {
     //this converts the weight into an easily readable string
     if (isGrams == prefersGrams) {

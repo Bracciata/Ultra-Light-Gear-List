@@ -315,12 +315,12 @@ class _MyHomePageState extends State<MyHomePage> {
       return (double.parse(weight) * 28.3495231).toString() + ' g';
     }
   }
-
   viewGearPage(BuildContext c, int pos) {
     //when an item in the list is pressed it opens the view page with full information and the options to edit or delete
 
     currObjPos = pos;
-    if (searchController != null) {
+    if (searchController != null&&searchController.text!=null&& isSearching) {
+
       currItem = listItems
           .where((g) => g == searchList.elementAt(pos))
           .toList()
