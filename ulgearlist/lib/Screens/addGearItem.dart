@@ -113,7 +113,6 @@ class AddScreen extends State<AddStatefulWidget> {
   }
 
   void addNewItem(BuildContext c) {
-    //TODO add the adding
     final form = formKey.currentState;
     if (form.validate()) {
       form.save();

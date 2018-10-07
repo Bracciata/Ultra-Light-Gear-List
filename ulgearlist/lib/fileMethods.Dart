@@ -66,16 +66,24 @@ class FileUpater {
     //removes the item from the list and writes it to file
     listItems.remove(listItems.elementAt(currObjPos));
     listItems.removeAt(0);
+    if(listItems.length==0){
+      listItemsNull=true;
+      
+      listItems=null;
+    }
+
     writeList(listItems, bc, false);
   }
 
   addItem(GearItem newItem, BuildContext bc) async {
     //adds item to list and writes the list to file.
+
     if (listItems == null) {
       listItems = new List<GearItem>();
     }else{
       listItems.removeAt(0);
     }
+    listItemsNull=false;
     listItems.add(newItem);
     writeList(listItems, bc, true);
   }

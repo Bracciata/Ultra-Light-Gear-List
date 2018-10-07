@@ -7,7 +7,6 @@ import 'mainPage.dart';
 String isGramsString = "g";
 bool isGrams = true;
 
-//TODO fix currItem becoming null when page changed
 class ViewScreen extends State<ViewStatefulWidget> {
   static const String routeName = "/viewScreen";
   @override

@@ -12,7 +12,6 @@ String isGramsString = "g";
 GearItem currItem;
 
 //TODO fix second pack showing up as pack item when reopening page on random occasions.
-//TODO fix search opening wrong one
 
 class MainStatefulWidget extends StatefulWidget {
   //this is flutter framework to set up home page
@@ -24,6 +23,7 @@ final TextEditingController searchController = new TextEditingController();
 String searchText;
 bool isSearching;
 List<GearItem> searchList;
+  bool listItemsNull;
 
 class MainScreen extends State<MainStatefulWidget> {
   static const String routeName = "/mainScreen";
@@ -46,7 +46,6 @@ class MainScreen extends State<MainStatefulWidget> {
     });
   }
 
-  bool listItemsNull = true;
   @override
   Widget build(BuildContext context) {
     //there is where the views are located
@@ -65,7 +64,6 @@ class MainScreen extends State<MainStatefulWidget> {
           leading: new Container(),
         ),
         body: new Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          //TODO fix this so that it will only show if there are list items and will show if there are list items instead of just never loading
           !listItemsNull
               ? new SwitchListTile(
                   title: new Text(isGramsString),
@@ -159,7 +157,6 @@ class MainScreen extends State<MainStatefulWidget> {
   }
 
   GearItem getTotalPackContents(bool searching) {
-    //TODO find a way to have this be called so it will be at top and hopefully make the rest indented
     double weight = 0.0;
     if (searching) {
       for (int i = 0; i < searchList.length; i++) {

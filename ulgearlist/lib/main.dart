@@ -67,6 +67,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    getGear();
     super.initState();
+  }
+
+  getGear() async {
+    //gets the saved gear from the file
+    FileUpater f = new FileUpater();
+    listItems = await f.readList();
+    if (listItems == null || listItems.length == 0) {
+      listItemsNull = true;
+    } else {
+      listItemsNull = false;
+    }
   }
 }
