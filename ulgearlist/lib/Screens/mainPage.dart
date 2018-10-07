@@ -10,8 +10,9 @@ int currObjPos;
 bool prefersGrams = true;
 String isGramsString = "g";
 GearItem currItem;
-//TODO fix having all of the items be deleted after adding new item on new open
 
+//TODO fix second pack showing up as pack item when reopening page on random occasions.
+//TODO fix search opening wrong one
 
 class MainStatefulWidget extends StatefulWidget {
   //this is flutter framework to set up home page
@@ -230,7 +231,7 @@ class MainScreen extends State<MainStatefulWidget> {
       } else {
         //otherwise this means we are searching so must find the ones that fit the search parameter
         searchList = new List<GearItem>();
-        for (int i = 0; i < listItems.length; i++) {
+        for (int i = 1; i < listItems.length; i++) {
           if (listItems[i]
                   .name
                   .toLowerCase()

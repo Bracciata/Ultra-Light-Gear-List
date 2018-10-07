@@ -8,9 +8,9 @@ import 'package:ulgearlist/Screens/mainPage.dart';
 
 import 'dart:async';
 
-void main() => runApp(new MyApp());
+void main() => runApp(MyApp());
 
-//TODO fix having all of the items be deleted after adding new item on new open
+//TODO immeditalely open mainpage
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
