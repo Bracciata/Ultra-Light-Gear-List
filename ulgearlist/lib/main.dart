@@ -3,15 +3,16 @@ import 'package:ulgearlist/GearItem.dart';
 import 'package:ulgearlist/FileMethods.dart';
 import 'package:ulgearlist/Screens/addGearItem.dart';
 import 'package:ulgearlist/Screens/viewItem.dart';
+import 'package:ulgearlist/Screens/editItem.dart';
+
 import 'dart:async';
 
-GearItem currItem;
 List<GearItem> listItems;
 int currObjPos;
 bool prefersGrams = true;
 String isGramsString = "g";
 void main() => runApp(new MyApp());
-
+//TODO fix having all of the items be deleted after adding new item on new open
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         // define the routes
         MyHomePage.routeName: (BuildContext context) => new MyHomePage(),
         AddScreen.routeName: (BuildContext context) => new AddStatefulWidget(),
+        EditScreen.routeName:(BuildContext context)=>new EditStatefulWidget(),
         ViewScreen.routeName: (BuildContext context) =>
             new ViewStatefulWidget(),
       },

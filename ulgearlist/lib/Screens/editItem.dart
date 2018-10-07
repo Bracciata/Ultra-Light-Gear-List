@@ -1,6 +1,6 @@
 import 'package:ulgearlist/FileMethods.Dart';
 import 'package:flutter/material.dart';
-import 'package:ulgearlist/main.dart';
+import 'viewItem.dart';
 //import 'dart:io';
 //import 'package:image_picker/image_picker.dart';
 import 'dart:async';

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import '../main.dart';
 import 'editItem.dart';
 import 'package:ulgearlist/fileMethods.dart';
 import 'dart:async';
+import '../GearItem.dart';
 
 String isGramsString = "g";
-bool isGrams;
+bool isGrams = true;
+GearItem currItem;
+
 //TODO fix currItem becoming null when page changed
 class ViewScreen extends State<ViewStatefulWidget> {
   static const String routeName = "/viewScreen";
-
   @override
   Widget build(BuildContext context) {
     TextStyle main = new TextStyle(color: Colors.black, fontSize: 18.0);
@@ -47,38 +48,32 @@ class ViewScreen extends State<ViewStatefulWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //new Image.file(currItem.image,width:MediaQuery.of(context).size.width*.5,height:MediaQuery.of(context).size.width*.5,),
-            new Row(
+            new Column(
               children: <Widget>[
-                new FractionallySizedBox(
-                  widthFactor: 50.0,
-                  child: new Text(
-                    currItem.name +
-                        ' (' +
-                        getGearWeight(
-                            currItem.weight, currItem.isGrams, isGrams) +
-                        ')',
-                    style: main,
-                  ),
+                new Text(
+                  currItem.name +
+                      ' (' +
+                      getGearWeight(
+                          currItem.weight, currItem.isGrams, isGrams) +
+                      ')',
+                  style: main,
                 ),
-                new FractionallySizedBox(
-                    widthFactor: 50.0,
-                    child: new SwitchListTile(
-                      title: new Text(isGramsString),
-                      value: isGrams,
-                      onChanged: (bool value) {
-                        setState(() {
-                          isGrams = value;
-                          if (isGrams) {
-                            isGramsString = 'g';
-                          } else {
-                            isGramsString = 'oz';
-                          }
-                        });
-                      },
-                    )),
+                new SwitchListTile(
+                  title: new Text(isGramsString),
+                  value: isGrams,
+                  onChanged: (bool value) {
+                    setState(() {
+                      isGrams = value;
+                      if (isGrams) {
+                        isGramsString = 'g';
+                      } else {
+                        isGramsString = 'oz';
+                      }
+                    });
+                  },
+                ),
               ],
             ),
-
             new Text(currItem.notes, style: secondary),
           ],
         ),
