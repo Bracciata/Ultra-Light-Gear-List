@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'editItem.dart';
 import 'package:ulgearlist/fileMethods.dart';
 import 'dart:async';
-import '../GearItem.dart';
+import 'mainPage.dart';
 
 String isGramsString = "g";
 bool isGrams = true;
-GearItem currItem;
 
 //TODO fix currItem becoming null when page changed
 class ViewScreen extends State<ViewStatefulWidget> {

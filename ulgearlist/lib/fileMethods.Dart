@@ -1,4 +1,4 @@
-import 'package:ulgearlist/main.dart';
+import 'Screens/mainPage.dart';
 import 'dart:convert';
 import 'package:ulgearlist/GearItem.dart';
 import 'package:ulgearlist/gearList.dart';
@@ -28,7 +28,7 @@ class FileUpater {
     if (returnLoc) {
       Navigator.pop(bc);
     } else {
-      Navigator.pushNamed(bc, MyHomePage.routeName);
+      Navigator.pushNamed(bc, MainScreen.routeName);
     }
 
     return file.writeAsString(jsonEncode(jsonString));
@@ -57,6 +57,7 @@ class FileUpater {
     listItems.elementAt(currObjPos).isGrams = newItem.isGrams;
     listItems.elementAt(currObjPos).notes = newItem.notes;
     //listItems.elementAt(currObjPos).image = newItem.image;
+    listItems.removeAt(0);
 
     writeList(listItems, bc, true);
   }
@@ -64,6 +65,7 @@ class FileUpater {
   removeItem(BuildContext bc) async {
     //removes the item from the list and writes it to file
     listItems.remove(listItems.elementAt(currObjPos));
+    listItems.removeAt(0);
     writeList(listItems, bc, false);
   }
 
@@ -71,6 +73,8 @@ class FileUpater {
     //adds item to list and writes the list to file.
     if (listItems == null) {
       listItems = new List<GearItem>();
+    }else{
+      listItems.removeAt(0);
     }
     listItems.add(newItem);
     writeList(listItems, bc, true);
