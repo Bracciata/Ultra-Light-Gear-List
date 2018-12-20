@@ -155,6 +155,7 @@ class MainScreen extends State<MainStatefulWidget> {
 
   getGear() async {
     //gets the saved gear from the file
+    listItems=null;
     FileUpater f = new FileUpater();
     listItems = await f.readList();
     if (listItems == null || listItems.length == 0) {
@@ -232,6 +233,7 @@ class MainScreen extends State<MainStatefulWidget> {
         if(listItems.elementAt(1).name== listItems.elementAt(0).name&&(double.parse(listItems.elementAt(1).weight)*2).toString()== listItems.elementAt(0).weight){
           //hack to fix doubling pack as item
           //TODO get rid of this
+          //This is caused by get gear being called twice. EX: after deleting
           listItems.removeAt(1); 
           listItems.elementAt(0).weight=(double.parse(listItems.elementAt(0).weight)/2).toString();
         }
@@ -353,6 +355,9 @@ class MainScreen extends State<MainStatefulWidget> {
           if (searchController == null) {
             currObjPos = index;
           } else {
+            if(searchList==null){
+              searchList=listItems;
+            }
             currObjPos =
                 listItems.indexWhere((g) => g == searchList.elementAt(index));
           }
@@ -389,5 +394,6 @@ class MainScreen extends State<MainStatefulWidget> {
   deleteItem(BuildContext c) {
     FileUpater f = new FileUpater();
     f.removeItem(c);
+    
   }
 }

@@ -24,8 +24,9 @@ class FileUpater {
   Future<File> writeList(
       List<GearItem> gearListItems, BuildContext bc, bool returnLoc) async {
     final file = await _localFile;
-    // Write the file
+    // Write the file earlier
     Map<String, dynamic> jsonString = new GearList(gearListItems).toJson();
+    await file.writeAsString(jsonEncode(jsonString));
     if (returnLoc) {
       Navigator.pop(bc);
     } else {
