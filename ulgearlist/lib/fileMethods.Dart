@@ -8,6 +8,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
 
+//TODO fix deleting so you can delete the entire things
 class FileUpater {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();

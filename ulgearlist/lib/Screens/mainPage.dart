@@ -11,11 +11,9 @@ bool prefersGrams = true;
 String isGramsString = "g";
 GearItem currItem;
 
-//TODO fix second pack showing up as pack item when reopening page on random occasions.
-
 class MainStatefulWidget extends StatefulWidget {
   //this is flutter framework to set up home page
-   @override
+  @override
   MainScreen createState() => new MainScreen();
 }
 
@@ -23,10 +21,15 @@ final TextEditingController searchController = new TextEditingController();
 String searchText;
 bool isSearching;
 List<GearItem> searchList;
-  bool listItemsNull;
+bool listItemsNull;
 
 class MainScreen extends State<MainStatefulWidget> {
   static const String routeName = "/mainScreen";
+  @override
+  void initState() {
+    getGear();
+    super.initState();
+  }
 
   bool searchVisibleBool = false;
 
@@ -154,6 +157,11 @@ class MainScreen extends State<MainStatefulWidget> {
     //gets the saved gear from the file
     FileUpater f = new FileUpater();
     listItems = await f.readList();
+    if (listItems == null || listItems.length == 0) {
+      listItemsNull = true;
+    } else {
+      listItemsNull = false;
+    }
   }
 
   GearItem getTotalPackContents(bool searching) {
@@ -213,14 +221,20 @@ class MainScreen extends State<MainStatefulWidget> {
 
       return plainListView;
     } else {
-      //this means there is saved gear                                                                                                                                                                            
+      //this means there is saved gear
       ListView gearListView;
       if (searchController.text == null || searchController.text == "") {
         //this is used if the search text is empty
-        if(isSearching==null){
-          isSearching=false;
+        if (isSearching == null) {
+          isSearching = false;
         }
         listItems.insert(0, getTotalPackContents(isSearching));
+        if(listItems.elementAt(1).name== listItems.elementAt(0).name&&(double.parse(listItems.elementAt(1).weight)*2).toString()== listItems.elementAt(0).weight){
+          //hack to fix doubling pack as item
+          //TODO get rid of this
+          listItems.removeAt(1); 
+          listItems.elementAt(0).weight=(double.parse(listItems.elementAt(0).weight)/2).toString();
+        }
         gearListView = new ListView(
             children: new List.generate(listItems.length, (int index) {
           return createItemTile(listItems[index], bc, index);
@@ -260,9 +274,9 @@ class MainScreen extends State<MainStatefulWidget> {
           return plainListView;
         } else {
           //this recreates the list to display where there is items that fit the search parameteres
-          if(isSearching==null){
-          isSearching=false;
-        }
+          if (isSearching == null) {
+            isSearching = false;
+          }
           searchList.insert(0, getTotalPackContents(isSearching));
 
           gearListView = new ListView(
@@ -289,12 +303,14 @@ class MainScreen extends State<MainStatefulWidget> {
       return (double.parse(weight) * 28.3495231).toString() + ' g';
     }
   }
+
   viewGearPage(BuildContext c, int pos) {
     //when an item in the list is pressed it opens the view page with full information and the options to edit or delete
 
     currObjPos = pos;
-    if (searchController != null&&searchController.text!=null&& isSearching) {
-
+    if (searchController != null &&
+        searchController.text != null &&
+        isSearching) {
       currItem = listItems
           .where((g) => g == searchList.elementAt(pos))
           .toList()
