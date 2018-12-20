@@ -230,6 +230,13 @@ class MainScreen extends State<MainStatefulWidget> {
           isSearching = false;
         }
         listItems.insert(0, getTotalPackContents(isSearching));
+        if(listItems.elementAt(1).name== listItems.elementAt(0).name&&(double.parse(listItems.elementAt(1).weight)*2).toString()== listItems.elementAt(0).weight){
+          //hack to fix doubling pack as item
+          //TODO get rid of this
+          //This is caused by get gear being called twice. EX: after deleting
+          listItems.removeAt(1); 
+          listItems.elementAt(0).weight=(double.parse(listItems.elementAt(0).weight)/2).toString();
+        }
         gearListView = new ListView(
             children: new List.generate(listItems.length, (int index) {
           return createItemTile(listItems[index], bc, index);
