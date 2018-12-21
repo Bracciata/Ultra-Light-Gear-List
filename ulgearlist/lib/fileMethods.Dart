@@ -1,18 +1,15 @@
-import 'Screens/mainPage.dart';
+import 'dart:io';
+import 'dart:async';
+import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
+import 'Screens/mainPage.dart';
 import 'package:ulgearlist/GearItem.dart';
 import 'package:ulgearlist/gearList.dart';
 import 'package:flutter/material.dart';
 
-import 'dart:io';
-import 'dart:async';
-import 'package:path_provider/path_provider.dart';
-
-//TODO fix deleting so you can delete the entire things
 class FileUpater {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
-
     return directory.path;
   }
 
@@ -21,25 +18,24 @@ class FileUpater {
     return File('$path/gearList.txt');
   }
 
-  Future<File> writeList(
-      List<GearItem> gearListItems, BuildContext bc) async {
+  Future<File> writeList(List<GearItem> gearListItems, BuildContext bc) async {
     final file = await _localFile;
     // Write the file earlier
     Map<String, dynamic> jsonString = new GearList(gearListItems).toJson();
     await file.writeAsString(jsonEncode(jsonString));
-    Navigator.pushNamedAndRemoveUntil(bc, MainScreen.routeName,ModalRoute.withName(MainScreen.routeName));
+    Navigator.pushNamedAndRemoveUntil(
+        bc, MainScreen.routeName, ModalRoute.withName(MainScreen.routeName));
     return file.writeAsString(jsonEncode(jsonString));
   }
 
   Future<List<GearItem>> readList() async {
     try {
+      //Only called on open
       final file = await _localFile;
-
       // Read the file
       String contents = await file.readAsString();
       Map fileMap = jsonDecode(contents);
       GearList jsonObject = GearList.fromJson(fileMap);
-
       return jsonObject.gearList;
     } catch (e) {
       // If we encounter an error, return 0
@@ -65,13 +61,11 @@ class FileUpater {
       listItemsNull = true;
       listItems = null;
     }
-
     writeList(listItems, bc);
   }
 
   addItem(GearItem newItem, BuildContext bc) async {
     //adds item to list and writes the list to file.
-
     if (listItems == null) {
       listItems = new List<GearItem>();
     }
