@@ -142,7 +142,9 @@ class MainScreen extends State<MainStatefulWidget> {
     listItems = null;
     FileUpater f = new FileUpater();
     listItems = await f.readList();
-    if (listItems == null || listItems.length == 0) {
+    if (listItems == null) {
+      listItemsNull = true;
+    } else if (listItems.length == 0) {
       listItemsNull = true;
     } else {
       listItemsNull = false;
@@ -258,10 +260,11 @@ class MainScreen extends State<MainStatefulWidget> {
 
   ListView generateListItems(
       List<GearItem> items, bool isSearch, BuildContext bc) {
-    items.insert(0, getTotalPackContents(isSearch));
+    List newItems = List.from(items);
+    newItems.insert(0, getTotalPackContents(isSearch));
     return new ListView(
-        children: new List.generate(searchList.length, (int index) {
-      return createItemTile(searchList[index], bc, index);
+        children: new List.generate(newItems.length, (int index) {
+      return createItemTile(newItems[index], bc, index);
     }));
   }
 
@@ -327,7 +330,8 @@ class MainScreen extends State<MainStatefulWidget> {
         onLongPress: () {
           deleteDialog(context);
           if (searchController == null) {
-            currObjPos = index;
+            //minus one because will delete at minus one so not pack
+            currObjPos = index - 1;
           } else {
             if (searchList == null) {
               searchList = listItems;
