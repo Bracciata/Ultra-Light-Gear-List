@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'mainPage.dart';
 import 'editItem.dart';
-import 'package:ulgearlist/fileMethods.dart';
+import 'package:ulgearlist/Classes/fileMethods.dart';
 
 String isGramsString = "g";
 bool isGrams = true;

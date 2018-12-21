@@ -1,11 +1,12 @@
+
+import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'dart:async';
-import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 import '../Screens/mainPage.dart';
 import 'package:ulgearlist/Objects/GearItem.dart';
-import 'package:ulgearlist/gearList.dart';
-import 'package:flutter/material.dart';
+import 'package:ulgearlist/Objects/gearList.dart';
 
 class FileUpater {
   Future<String> get _localPath async {
