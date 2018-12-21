@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-//import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'dart:io';
-import 'package:ulgearlist/Objects/GearItem.dart';
 import 'package:ulgearlist/Classes/FileMethods.dart';
+import 'package:ulgearlist/Objects/GearItem.dart';
 
 class AddScreen extends State<AddStatefulWidget> {
   static const String routeName = "/addScreen";

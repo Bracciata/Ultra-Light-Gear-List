@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:ulgearlist/Objects/GearItem.dart';
 import 'package:ulgearlist/Classes/FileMethods.dart';
 import 'package:ulgearlist/Screens/addGearItem.dart';
 import 'package:ulgearlist/Screens/viewItem.dart';
-import 'dart:async';
 
 List<GearItem> listItems;
 int currObjPos;
