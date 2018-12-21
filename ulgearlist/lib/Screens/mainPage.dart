@@ -213,12 +213,7 @@ class MainScreen extends State<MainStatefulWidget> {
         if (isSearching == null) {
           isSearching = false;
         }
-        listItems.insert(0, getTotalPackContents(isSearching));
-        
-        gearListView = new ListView(
-            children: new List.generate(listItems.length, (int index) {
-          return createItemTile(listItems[index], bc, index);
-        }));
+        gearListView = generateListItems(listItems, isSearching, bc);
       } else {
         //otherwise this means we are searching so must find the ones that fit the search parameter
         searchList = new List<GearItem>();
@@ -257,16 +252,21 @@ class MainScreen extends State<MainStatefulWidget> {
           if (isSearching == null) {
             isSearching = false;
           }
-          searchList.insert(0, getTotalPackContents(isSearching));
 
-          gearListView = new ListView(
-              children: new List.generate(searchList.length, (int index) {
-            return createItemTile(searchList[index], bc, index);
-          }));
+          gearListView = generateListItems(searchList, isSearching, bc);
         }
       }
       return gearListView;
     }
+  }
+
+  ListView generateListItems(
+      List<GearItem> items, bool isSearch, BuildContext bc) {
+    items.insert(0, getTotalPackContents(isSearch));
+    return new ListView(
+        children: new List.generate(searchList.length, (int index) {
+      return createItemTile(searchList[index], bc, index);
+    }));
   }
 
   String getGearWeight(String weight, bool isGrams, bool prefersGrams) {

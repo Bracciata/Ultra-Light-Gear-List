@@ -59,7 +59,6 @@ class FileUpater {
     listItems.elementAt(currObjPos).isGrams = newItem.isGrams;
     listItems.elementAt(currObjPos).notes = newItem.notes;
     //listItems.elementAt(currObjPos).image = newItem.image;
-    listItems.removeAt(0);
 
     writeList(listItems, bc, true);
   }
@@ -67,11 +66,9 @@ class FileUpater {
   removeItem(BuildContext bc) async {
     //removes the item from the list and writes it to file
     listItems.remove(listItems.elementAt(currObjPos));
-    listItems.removeAt(0);
-    if(listItems.length==0){
-      listItemsNull=true;
-      
-      listItems=null;
+    if (listItems.length == 0) {
+      listItemsNull = true;
+      listItems = null;
     }
 
     writeList(listItems, bc, false);
@@ -82,10 +79,8 @@ class FileUpater {
 
     if (listItems == null) {
       listItems = new List<GearItem>();
-    }else{
-      listItems.removeAt(0);
     }
-    listItemsNull=false;
+    listItemsNull = false;
     listItems.add(newItem);
     writeList(listItems, bc, true);
   }
