@@ -1,10 +1,10 @@
-import 'package:ulgearlist/FileMethods.Dart';
+import 'package:ulgearlist/Classes/FileMethods.Dart';
 import 'package:flutter/material.dart';
 import 'mainPage.dart';
 //import 'dart:io';
 //import 'package:image_picker/image_picker.dart';
 import 'dart:async';
-import 'package:ulgearlist/GearItem.dart';
+import 'package:ulgearlist/Objects/GearItem.dart';
 
 class EditScreen extends State<EditStatefulWidget> {
   static const String routeName = "/editScreen";

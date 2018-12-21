@@ -1,4 +1,4 @@
-import 'package:ulgearlist/GearItem.dart';
+import 'package:ulgearlist/Objects/GearItem.dart';
 
 class GearList {
   final List<GearItem> gearList;

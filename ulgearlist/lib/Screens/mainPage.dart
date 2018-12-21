@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ulgearlist/GearItem.dart';
-import 'package:ulgearlist/FileMethods.dart';
+import 'package:ulgearlist/Objects/GearItem.dart';
+import 'package:ulgearlist/Classes/FileMethods.dart';
 import 'package:ulgearlist/Screens/addGearItem.dart';
 import 'package:ulgearlist/Screens/viewItem.dart';
 import 'dart:async';
