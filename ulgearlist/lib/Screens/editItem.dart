@@ -22,8 +22,12 @@ class EditScreen extends State<EditStatefulWidget> {
   @override
   void initState() {
     nameController.text = currItem.name;
+    name=currItem.name;
     notesController.text = currItem.notes;
+    notes=currItem.notes;
     weightController.text = currItem.weight;
+    weight=currItem.weight;
+    
     //gearImage = currItem.image;
     return super.initState();
   }
@@ -78,6 +82,8 @@ class EditScreen extends State<EditStatefulWidget> {
                               ? 'Input needs to be a valid number'
                               : null;
                         },
+                        controller: weightController,
+
                         onSaved: (val) => weight = val,
                         keyboardType: TextInputType.numberWithOptions(),
                         decoration: const InputDecoration(
