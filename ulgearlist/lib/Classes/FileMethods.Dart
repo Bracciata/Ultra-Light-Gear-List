@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
@@ -19,13 +18,16 @@ class FileUpater {
     return File('$path/gearList.txt');
   }
 
-  Future<File> writeList(List<GearItem> gearListItems, BuildContext bc) async {
+  Future<File> writeList(
+      List<GearItem> gearListItems, BuildContext bc, bool returnBool) async {
     final file = await _localFile;
     // Write the file earlier
     Map<String, dynamic> jsonString = new GearList(gearListItems).toJson();
     await file.writeAsString(jsonEncode(jsonString));
-    Navigator.pushNamedAndRemoveUntil(
-        bc, MainScreen.routeName, ModalRoute.withName(MainScreen.routeName));
+    returnBool
+        ? Navigator.pop(bc)
+        : Navigator.pushNamedAndRemoveUntil(bc, MainScreen.routeName,
+            ModalRoute.withName(MainScreen.routeName));
     return file.writeAsString(jsonEncode(jsonString));
   }
 
@@ -51,8 +53,7 @@ class FileUpater {
     listItems.elementAt(currObjPos).isGrams = newItem.isGrams;
     listItems.elementAt(currObjPos).notes = newItem.notes;
     //listItems.elementAt(currObjPos).image = newItem.image;
-
-    writeList(listItems, bc);
+    writeList(listItems, bc, true);
   }
 
   removeItem(BuildContext bc) async {
@@ -62,7 +63,7 @@ class FileUpater {
       listItemsNull = true;
       listItems = null;
     }
-    writeList(listItems, bc);
+    writeList(listItems, bc, false);
   }
 
   addItem(GearItem newItem, BuildContext bc) async {
@@ -72,6 +73,6 @@ class FileUpater {
     }
     listItemsNull = false;
     listItems.add(newItem);
-    writeList(listItems, bc);
+    writeList(listItems, bc, false);
   }
 }
