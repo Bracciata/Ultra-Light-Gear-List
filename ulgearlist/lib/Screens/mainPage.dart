@@ -207,12 +207,12 @@ class MainScreen extends State<MainStatefulWidget> {
       return plainListView;
     } else {
       //this means there is saved gear
+      if (isSearching == null) {
+        isSearching = false;
+      }
       ListView gearListView;
       if (searchController.text == null || searchController.text == "") {
         //this is used if the search text is empty
-        if (isSearching == null) {
-          isSearching = false;
-        }
         gearListView = generateListItems(listItems, isSearching, bc);
       } else {
         //otherwise this means we are searching so must find the ones that fit the search parameter
@@ -249,10 +249,6 @@ class MainScreen extends State<MainStatefulWidget> {
           return plainListView;
         } else {
           //this recreates the list to display where there is items that fit the search parameteres
-          if (isSearching == null) {
-            isSearching = false;
-          }
-
           gearListView = generateListItems(searchList, isSearching, bc);
         }
       }
