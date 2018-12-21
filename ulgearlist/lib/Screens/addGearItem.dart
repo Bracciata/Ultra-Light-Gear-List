@@ -106,7 +106,6 @@ class AddScreen extends State<AddStatefulWidget> {
 
   Future getImage() async {
    // var imagePicked = await ImagePicker.pickImage(source: ImageSource.camera);
-
     setState(() {
       //   image = imagePicked;
     });

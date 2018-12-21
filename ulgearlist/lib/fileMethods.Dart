@@ -22,17 +22,12 @@ class FileUpater {
   }
 
   Future<File> writeList(
-      List<GearItem> gearListItems, BuildContext bc, bool returnLoc) async {
+      List<GearItem> gearListItems, BuildContext bc) async {
     final file = await _localFile;
     // Write the file earlier
     Map<String, dynamic> jsonString = new GearList(gearListItems).toJson();
     await file.writeAsString(jsonEncode(jsonString));
-    if (returnLoc) {
-      Navigator.pop(bc);
-    } else {
-      Navigator.pushNamed(bc, MainScreen.routeName);
-    }
-
+    Navigator.pushNamedAndRemoveUntil(bc, MainScreen.routeName,ModalRoute.withName(MainScreen.routeName));
     return file.writeAsString(jsonEncode(jsonString));
   }
 
@@ -60,7 +55,7 @@ class FileUpater {
     listItems.elementAt(currObjPos).notes = newItem.notes;
     //listItems.elementAt(currObjPos).image = newItem.image;
 
-    writeList(listItems, bc, true);
+    writeList(listItems, bc);
   }
 
   removeItem(BuildContext bc) async {
@@ -71,7 +66,7 @@ class FileUpater {
       listItems = null;
     }
 
-    writeList(listItems, bc, false);
+    writeList(listItems, bc);
   }
 
   addItem(GearItem newItem, BuildContext bc) async {
@@ -82,6 +77,6 @@ class FileUpater {
     }
     listItemsNull = false;
     listItems.add(newItem);
-    writeList(listItems, bc, true);
+    writeList(listItems, bc);
   }
 }
