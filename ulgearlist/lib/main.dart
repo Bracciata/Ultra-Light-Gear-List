@@ -48,28 +48,27 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     //there is where the views are located
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
-        actions: <Widget>[],
-        leading: new Container(),
-      ),
-      body: new Expanded(
-        flex: 1,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            /// Loader Animation Widget
-            CircularProgressIndicator(
-              valueColor: new AlwaysStoppedAnimation<Color>(Colors.green),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-            ),
-            Text("Loading"),
-          ],
+        appBar: new AppBar(
+          title: new Text(widget.title),
+          actions: <Widget>[],
+          leading: new Container(),
         ),
-      ),
-    );
+        body: new Center(
+            child: new Column(children: [
+          new Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                /// Loader Animation Widget
+                CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.green),
+                ),
+                Text("Loading"),
+              ],
+            ),
+          ),
+        ])));
   }
 
   @override
