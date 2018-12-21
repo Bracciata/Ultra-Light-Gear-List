@@ -80,5 +80,12 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       listItemsNull = false;
     }
+    Navigator.pushAndRemoveUntil(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new MainStatefulWidget()),
+        (Route<dynamic> route) {
+      return false;
+    });
   }
 }

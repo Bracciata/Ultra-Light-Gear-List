@@ -25,11 +25,6 @@ bool listItemsNull;
 
 class MainScreen extends State<MainStatefulWidget> {
   static const String routeName = "/mainScreen";
-  @override
-  void initState() {
-    getGear();
-    super.initState();
-  }
 
   bool searchVisibleBool = false;
 
@@ -68,36 +63,25 @@ class MainScreen extends State<MainStatefulWidget> {
         ),
         body: new Column(mainAxisAlignment: MainAxisAlignment.start, children: [
           !listItemsNull
-              ? new SwitchListTile(
-                  title: new Text(isGramsString),
-                  value: prefersGrams,
-                  onChanged: (bool value) {
-                    setState(() {
-                      prefersGrams = value;
-                      if (prefersGrams) {
-                        isGramsString = 'g';
-                      } else {
-                        isGramsString = 'oz';
-                      }
-                    });
-                  },
-                )
+              ? new Column(children: <Widget>[
+                  SwitchListTile(
+                    title: new Text(isGramsString),
+                    value: prefersGrams,
+                    onChanged: (bool value) {
+                      setState(() {
+                        prefersGrams = value;
+                        if (prefersGrams) {
+                          isGramsString = 'g';
+                        } else {
+                          isGramsString = 'oz';
+                        }
+                      });
+                    },
+                  )
+                ])
               : new Container(),
           new Expanded(
-            child: new FutureBuilder(
-                future: getGear(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.none:
-                    case ConnectionState.waiting:
-                      return new Text('loading...');
-                    default:
-                      if (snapshot.hasError)
-                        return new Text('Error: ${snapshot.error}');
-                      else
-                        return getGearWidgets(context);
-                  }
-                }),
+            child: getGearWidgets(context),
           ),
           searchVisibleBool
               ? new Row(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -124,8 +108,8 @@ class MainScreen extends State<MainStatefulWidget> {
                     },
                   ))
                 ])
-              : new Container() //replaces the searchbar with empty container
-        ]),
+              : new Container()
+        ]), //replaces the searchbar with empty container
         floatingActionButton: !searchVisibleBool
             ? new FloatingActionButton(
                 onPressed: () {
@@ -155,7 +139,7 @@ class MainScreen extends State<MainStatefulWidget> {
 
   getGear() async {
     //gets the saved gear from the file
-    listItems=null;
+    listItems = null;
     FileUpater f = new FileUpater();
     listItems = await f.readList();
     if (listItems == null || listItems.length == 0) {
@@ -230,13 +214,7 @@ class MainScreen extends State<MainStatefulWidget> {
           isSearching = false;
         }
         listItems.insert(0, getTotalPackContents(isSearching));
-        if(listItems.elementAt(1).name== listItems.elementAt(0).name&&(double.parse(listItems.elementAt(1).weight)*2).toString()== listItems.elementAt(0).weight){
-          //hack to fix doubling pack as item
-          //TODO get rid of this
-          //This is caused by get gear being called twice. EX: after deleting
-          listItems.removeAt(1); 
-          listItems.elementAt(0).weight=(double.parse(listItems.elementAt(0).weight)/2).toString();
-        }
+        
         gearListView = new ListView(
             children: new List.generate(listItems.length, (int index) {
           return createItemTile(listItems[index], bc, index);
@@ -355,8 +333,8 @@ class MainScreen extends State<MainStatefulWidget> {
           if (searchController == null) {
             currObjPos = index;
           } else {
-            if(searchList==null){
-              searchList=listItems;
+            if (searchList == null) {
+              searchList = listItems;
             }
             currObjPos =
                 listItems.indexWhere((g) => g == searchList.elementAt(index));
@@ -394,6 +372,5 @@ class MainScreen extends State<MainStatefulWidget> {
   deleteItem(BuildContext c) {
     FileUpater f = new FileUpater();
     f.removeItem(c);
-    
   }
 }
