@@ -70,38 +70,38 @@ class EditScreen extends State<EditStatefulWidget> {
                     ),
                   ),
                   new Row(children: [
-                    new FractionallySizedBox(
-                        widthFactor: 50.0,
-                        child: new TextFormField(
-                          validator: (input) {
-                            final isDigitsOnly = double.tryParse(input);
-                            return isDigitsOnly == null
-                                ? 'Input needs to be a valid number'
-                                : null;
-                          },
-                          onSaved: (val) => weight = val,
-                          keyboardType: TextInputType.numberWithOptions(),
-                          decoration: const InputDecoration(
-                            hintText: 'Enter weight',
-                            labelText: 'Weight',
-                          ),
-                        )),
-                    new FractionallySizedBox(
-                        widthFactor: 50.0,
-                        child: new SwitchListTile(
-                          title: new Text(isGramsString),
-                          value: isGrams,
-                          onChanged: (bool value) {
-                            setState(() {
-                              isGrams = value;
-                              if (isGrams) {
-                                isGramsString = 'g';
-                              } else {
-                                isGramsString = 'oz';
-                              }
-                            });
-                          },
-                        )),
+                    new Expanded(
+                      child: new TextFormField(
+                        validator: (input) {
+                          final isDigitsOnly = double.tryParse(input);
+                          return isDigitsOnly == null
+                              ? 'Input needs to be a valid number'
+                              : null;
+                        },
+                        onSaved: (val) => weight = val,
+                        keyboardType: TextInputType.numberWithOptions(),
+                        decoration: const InputDecoration(
+                          hintText: 'Enter weight',
+                          labelText: 'Weight',
+                        ),
+                      ),
+                    ),
+                    new Expanded(
+                      child: new SwitchListTile(
+                        title: new Text(isGramsString),
+                        value: isGrams,
+                        onChanged: (bool value) {
+                          setState(() {
+                            isGrams = value;
+                            if (isGrams) {
+                              isGramsString = 'g';
+                            } else {
+                              isGramsString = 'oz';
+                            }
+                          });
+                        },
+                      ),
+                    )
                   ]),
                   new TextField(
                     onChanged: (String value) {
