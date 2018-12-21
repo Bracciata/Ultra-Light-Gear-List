@@ -47,7 +47,7 @@ class EditScreen extends State<EditStatefulWidget> {
         body: new Center(
           child: new Column(children: [
             //allows the image to be clicked on so it can be changed
-         /*   new GestureDetector(
+            /*   new GestureDetector(
               onTap: getImage,
               child: new Image.file(
                 gearImage,
@@ -139,8 +139,9 @@ class EditScreen extends State<EditStatefulWidget> {
     if (form.validate()) {
       form.save();
       FileUpater f = new FileUpater();
-      currItem = new GearItem(name, weight, isGrams, notes, 
-      //gearImage
+      currItem = new GearItem(
+        name, weight, isGrams, notes,
+        //gearImage
       );
       f.updateItem(currItem, c);
     } else {
@@ -150,7 +151,7 @@ class EditScreen extends State<EditStatefulWidget> {
 
 //allows the user to change the image associated with the piece of gear
   Future getImage() async {
-   // var imagePicked = await ImagePicker.pickImage(source: ImageSource.camera);
+    // var imagePicked = await ImagePicker.pickImage(source: ImageSource.camera);
 
     setState(() {
       //gearImage = imagePicked;

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:ulgearlist/GearItem.dart';
 import 'package:ulgearlist/FileMethods.dart';
 import 'package:ulgearlist/Screens/addGearItem.dart';
 import 'package:ulgearlist/Screens/viewItem.dart';
 import 'package:ulgearlist/Screens/editItem.dart';
 import 'package:ulgearlist/Screens/mainPage.dart';
 
-import 'dart:async';
-
 void main() => runApp(MyApp());
 
-//TODO immeditalely open mainpage
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
