@@ -325,7 +325,7 @@ class MainScreen extends State<MainStatefulWidget> {
           overflow: TextOverflow.ellipsis,
         ),
         onTap: () {
-          viewGearPage(bc, index-1);
+          viewGearPage(bc, index - 1);
         },
         onLongPress: () {
           deleteDialog(context);
@@ -336,8 +336,8 @@ class MainScreen extends State<MainStatefulWidget> {
             if (searchList == null) {
               searchList = listItems;
             }
-            currObjPos =
-                listItems.indexWhere((g) => g == searchList.elementAt(index-1));
+            currObjPos = listItems
+                .indexWhere((g) => g == searchList.elementAt(index - 1));
           }
         },
       );
